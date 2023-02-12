@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hash Analyzer</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container my-5">
+      <h1 class="text-center">Hash Analyzer</h1>
+      <div class="row mt-3">
+        <div class="col-md-6 offset-md-3">
+          <form>
+            <div class="form-group">
+              <label for="hashInput">Enter a hash:</label>
+              <input type="text" class="form-control" id="hashInput" placeholder="Enter hash here...">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="analyzeHash()">Analyze Hash</button>
+          </form>
+          <div id="hashType" class="my-3"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4"></script>
+    <script>
+        function analyzeHash() {
+          const hash = document.getElementById("hashInput").value;
+          const md5Regex = /^[a-f0-9]{32}$/i;
+          const sha1Regex = /^[a-f0-9]{40}$/i;
+          const sha256Regex = /^[a-f0-9]{64}$/i;
+          const sha512Regex = /^[a-f0-9]{128}$/i;
+          const blowfishRegex = /^\$2[ayb]\$.{56}$/i;
+          if (md5Regex.test(hash)) {
+            document.getElementById("hashType").innerHTML = "The hash is an MD5 hash.";
+          } else if (sha1Regex.test(hash)) {
+            document.getElementById("hashType").innerHTML = "The hash is a SHA-1 hash.";
+          } else if (sha256Regex.test(hash)) {
+            document.getElementById("hashType").innerHTML = "The hash is a SHA-256 hash.";
+          } else if (sha512Regex.test(hash)) {
+            document.getElementById("hashType").innerHTML = "The hash is a SHA-512 hash.";
+          } else if (blowfishRegex.test(hash)) {
+            document.getElementById("hashType").innerHTML = "The hash is a Blowfish hash.";
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Invalid hash",
+              text: "Please enter a valid MD5, SHA-1, SHA-256, SHA-512, or Blowfish hash.",
+            });
+          }
+        }
+      </script>
+      
+  </body>
+</html>
